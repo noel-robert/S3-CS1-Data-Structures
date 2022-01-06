@@ -2,34 +2,33 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <math.h>
 
-int top=-1;										// top position of stack
-char stk[1000];								// stack to store operators	
+int top = -1;							// top position of stack
+char stk[1000];						// stack to store operators	
 
-void push(char item)					// push to stack
+void push(char item)			// push to stack
 {
 	stk[++top] = item;
 }
 
-char pop()										// pop from stack
+char pop()								// pop from stack
 {
 	return stk[top--];
 }
 
-int priority(char ele)			// finding priority of operator
+int priority(char ele)		// finding priority of operator
 {
 	switch (ele)
- {
-	//case '#': return 0;
+	{
+		case '(': return 1;
  
- 	case '(': return 1;
+ 		case '+':
+ 		case '-': return 2;
  
- 	case '+':
- 	case '-': return 2;
- 
- 	case '*':
- 	case '/': return 3;
- }
+ 		case '*':
+ 		case '/': return 3;
+	}
 }
 
 void infix_to_postfix(char* ifx, char* pfx)
@@ -61,23 +60,7 @@ void infix_to_postfix(char* ifx, char* pfx)
 	while (top != -1 && stk[top] != '(')	// pop from stack till empty 
   	pfx[p++] = pop();
 
-	// while(stk[top] != '(')
-	// 	pfx[p++] = pop();
-
-	// while (stk[top] != '#') 	/* Pop from stack till empty */
- 	// 	pfx[p++] = pop();
-
 	pfx[p] = 0;	
-}
-
-void power(int a, int b)
-{
-	int i = 1, k = 1;
-	while(i<=b)
-	{
-		k*=a; i++;
-	}
-	push(k);
 }
 
 int postfix_eval(char* pfx)
@@ -94,21 +77,21 @@ int postfix_eval(char* pfx)
 		{
 			b = pop();
 			a = pop();
-			
+			double res;
 			switch(ch)
 			{
 				case '+' : push(a + b); break;
 				case '-' : push(a - b); break;
 				case '*' : push(a * b); break;
 				case '/' : push(a / b); break;
-				case '^' : power(a, b); break;					 
+				case '^' : res = pow((double)(a), (double)(b));
+										push(res); break;				 
 			}
 		}	
 	}
 
 	return stk[top];							// returns result
 }
-
 
 int main()
 {
