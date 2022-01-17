@@ -1,3 +1,5 @@
+// program to implement binary search
+
 #include <stdio.h>
 
 int search(int start, int end, int arr[], int ele)
@@ -6,7 +8,8 @@ int search(int start, int end, int arr[], int ele)
     return -1;
 
   int mid = (start + end)/2;
-  if(arr[mid] == ele)
+  
+	if(arr[mid] == ele)
     return mid;
   else if(ele > arr[mid])
     search(mid+1, end, arr, ele); 

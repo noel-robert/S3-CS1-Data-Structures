@@ -1,3 +1,9 @@
+// DS lab qn 3
+// program to convert infix to postfix, and evaluate it.
+// enter as expression in alphabetic form, then enter value of each.
+// status: working
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -17,7 +23,19 @@ char pop()								// pop from stack
 	return stk[top--];
 }
 
-int priority(char ele)		// finding priority of operator
+				float evalStk[1000];				// a second stack to store values during evaluation
+
+				void evalPush(float item)		// push to second stack
+				{
+					evalStk[++top] = item;
+				}
+
+				float evalPop()							// pop from second stack
+				{
+					return evalStk[top--];
+				}
+
+int priority(char ele)							// finding priority of operator
 {
 	switch (ele)
 	{
@@ -34,7 +52,7 @@ int priority(char ele)		// finding priority of operator
 void infix_to_postfix(char* ifx, char* pfx)
 {
 	char ch, temp;
-	int i=0, p=0;  // counter variables to traverse through infix and postfix expression
+	int i=0, p=0;  // counter variables to traverse through infix and postfix
 	push('(');
 
 	while ((ch = ifx[i++]) != '\n')
@@ -61,70 +79,41 @@ void infix_to_postfix(char* ifx, char* pfx)
   	pfx[p++] = pop();
 
 	pfx[p] = 0;	
+
 }
 
-// <-- working postfix eval
-// int postfix_eval(char* pfx)
-// {
-// 	char ch;						
-// 	int a,b;						// operands
-// 	int i=0;
-	
-// 	while((ch = pfx[i++]) != 0)
-// 	{
-// 		if(isdigit(ch))
-// 			push(ch-'0');			// converts character to integer
-// 		else								// ch is an operator
-// 		{
-// 			b = pop();
-// 			a = pop();
-// 			double res;
-// 			switch(ch)
-// 			{
-// 				case '+' : push(a + b); break;
-// 				case '-' : push(a - b); break;
-// 				case '*' : push(a * b); break;
-// 				case '/' : push(a / b); break;
-// 				case '^' : res = pow((double)(a), (double)(b));
-// 										push(res); break;				 
-// 			}
-// 		}	
-// 	}
-// 	return stk[top];							// returns result
-// }
-
-int postfix_eval(char* pfx)
+float postfix_eval(char* pfx)
 {
 	char ch;						
-	int a,b;						// operands
+	float a,b;						// operands
 	int i=0;
 	
 	while((ch = pfx[i++]) != 0)
 	{
 		if(isalpha(ch))
 		{
-			int value;
+			float value;
 			printf("Enter value of variable %c ", ch);
-			scanf("%d", &value);
-			push(value);
+			scanf("%f", &value);
+			evalPush(value);
 		}
 		else								// ch is an operator
 		{
-			b = pop();
-			a = pop();
-			double res;
+			b = evalPop();	
+			a = evalPop();	
+			float res;
 			switch(ch)
 			{
-				case '+' : push(a + b); break;
-				case '-' : push(a - b); break;
-				case '*' : push(a * b); break;
-				case '/' : push(a / b); break;
-				case '^' : res = pow((double)(a), (double)(b));
-										push(res); break;				 
+				case '+' : evalPush(a + b); break;
+				case '-' : evalPush(a - b); break;
+				case '*' : evalPush(a * b); break;
+				case '/' : evalPush(a / b); break;
+				case '^' : res = pow((double)(a), (double)(b)); 
+										evalPush(res); break;				 
 			}
 		}	
 	}
-	return stk[top];							// returns result
+	return evalStk[top];							// returns result
 }
 
 int main()
@@ -139,7 +128,7 @@ int main()
 	printf("Given infix expression is %s", ifx);
 	printf("Postfix expression is %s\n", pfx);
 
-	printf("Result after postfix evaluation is %d\n", postfix_eval(pfx));
+	printf("Result after postfix evaluation is %lf\n", postfix_eval(pfx));
 	
 	return 0;
 }

@@ -1,3 +1,8 @@
+// DS lab qn 2
+// program to implement stack and queue
+// status: working
+
+
 #include <stdio.h>
 #include <stdlib.h>
 

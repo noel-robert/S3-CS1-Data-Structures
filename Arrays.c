@@ -1,4 +1,6 @@
 // Noel John Robert
+// lab exp no: 0
+// array operations
 
 #include <stdio.h>
 #include <stdlib.h>
