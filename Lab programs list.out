@@ -5,4 +5,15 @@ Qn2: Program to implement stack and queue
 		 -->StackQueue.c
 
 Qn3: Program to implement infix to postfix conversion and evaluation
-		 -->infix.c	 		 
+		 -->infix.c	 
+
+
+
+
+
+online:
+exp0: array operations
+		-->Arrays.c	
+
+21/01/2022: stack and queue using linked list
+		-->

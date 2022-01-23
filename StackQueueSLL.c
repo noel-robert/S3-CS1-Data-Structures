@@ -1,64 +1,60 @@
-// DS lab qn 2
-// program to implement stack and queue
-// status: working
+// Noel John Robert
+// implement stack and queue using Singly Linked List
+// 
 
 #include <stdio.h>
 #include <stdlib.h>
 
-int top=-1, front=-1, rear=-1;  // global variables
-int max_size = 0;
-int* stk = 0;
-int* que = 0;
-
-void push(int item)			// pushing to stack
+struct Node
 {
-	if(top == max_size-1)
-	{
-		printf("Overflow, cannot push new element\n");
-		return;
-	}
-	else
-	{
-		top++;
-		stk[top] = item;
-	}
+	int info;
+	struct Node *link;
+} *head, *temp, *ptr, *front=NULL, *rear=NULL;
+
+// stack operations
+void push(int item)
+{
+	temp = (struct Node*) malloc(sizeof(struct Node));
+
+	temp->info = item;
+	temp->link = head;
+	head = temp;
+	return;
 }
 
-void pop()							// popping from stack
+void pop()
 {
-	if(top == -1)
+	if(head == NULL)
 	{
-		printf("Underflow\n");
+		printf("Underflow \n");
 		return;
 	}
-	else
-	{
-		printf("Item popped: %d\n", stk[top]);
-		top--;
-	}		
+
+	printf("Item popped: %d\n", head->info);
+	temp = head;
+	head = head->link;
+	free(temp);
+	return;
 }
 
-void stackDisplay()				// display stack
+void stackDisplay()
 {
-	if(top == -1)
+	if(head == NULL)
 	{
-		printf("Empty stack");
+		printf("Empty stack \n");
 		return;
 	}
-	else
+	ptr = head;
+	while(ptr != NULL)
 	{
-		for(int i=top; i>=0; i--)
-			printf("%d ", stk[i]);
-		printf("\n");	
+		printf("%d ", ptr->info);
+		ptr = ptr->link;
 	}
+	printf("\n");
 }
 
 void stackMenu()
 {
-	printf("Input size of stack: "); 
-	scanf("%d", &max_size);
-	stk = (int*)malloc(max_size * sizeof(int));
-	
 	int code;
 	do
 	{
@@ -83,60 +79,66 @@ void stackMenu()
 			default:printf("Wrong code inputted\n");
 		}
 	}while(code != 4);
-	free(stk);
 }
 
-void enqueue(int item)		// insert to queue
+
+// queue operations
+void enqueue(int item)
 {
-	if(rear == max_size-1)
+	temp = (struct Node*) malloc(sizeof(struct Node));
+
+	temp->info = item;
+	temp->link = NULL;
+
+	if((front==rear) && (front==NULL))	// empty SLL
+		front = rear = temp;
+	else
 	{
-		printf("Overflow\n");
-		return;
+		rear->link = temp;
+		rear = temp;
 	}
 
-	if(rear == -1)
-		front=rear=0;
-	else
-		rear++;
-	que[rear] = item;	
+	return;
 }
 
-void dequeue()					// remove from queue
+void dequeue()
 {
-	if(front == -1)
+	if(front == NULL)
 	{
-		printf("Underflow\n");
+		printf("Underflow");
 		return;
 	}
+	printf("Item popped: %d\n", front->info);
+	temp = front;
 
-	printf("Item removed from queue: %d", que[front]);
-	if(front == rear)
-		front = rear = -1;
+	if(front == rear)		// only one element
+		front = rear = NULL;
 	else
-		front = front+1;	
+		front = front->link;
+
+	free(temp);
+	return;	
 }
 
-void queueDisplay()		// display queue
+void queueDisplay()
 {
-	if(front == -1 || rear == -1)
+	ptr = front;
+	if(front == NULL)
 	{
-		printf("Queue is empty");
+		printf("Empty queue \n");
 		return;
 	}
-	else
-	{
-		for(int i=front; i<=rear; i++)
-			printf("%d ", que[i]);
-		printf("\n");	
-	}		
+	
+	while(ptr != NULL)   
+	{  
+			printf("%d ",ptr->info);  
+			ptr = ptr->link;  
+	}
+	printf("\n");
 }
 
 void queueMenu()
 {
-	printf("Input size of queue: "); 
-	scanf("%d", &max_size);
-	que = (int*)malloc(max_size * sizeof(int));
-	
 	int code;
 	do
 	{
@@ -161,8 +163,8 @@ void queueMenu()
 			default:printf("Wrong code inputted\n");
 		}
 	}while(code != 4);
-	free(que);
 }
+
 
 int main()
 {
@@ -176,9 +178,9 @@ int main()
 
 		switch(code)
 		{
-			case 1:	stackMenu(); printf("\n");
+			case 1:	stackMenu(); printf("\n"); head = NULL;
 							break;
-			case 2:	queueMenu(); printf("\n");
+			case 2:	queueMenu(); printf("\n"); front = NULL;
 							break;
 			case 3: printf("Exiting program on user input\n"); 
 							break;
