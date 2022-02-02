@@ -1,5 +1,5 @@
 Qn1: Program to implement linear and binary search in c
-		 -->not done in repl.implement
+		 -->not done in repl.it
 
 Qn2: Program to implement stack and queue
 		 -->StackQueue.c
@@ -9,11 +9,18 @@ Qn3: Program to implement infix to postfix conversion and evaluation
 
 
 
-
-
 online:
 exp0: array operations
-		-->Arrays.c	
+			-->array_operations.c	
 
 21/01/2022: stack and queue using linked list
-		-->
+			-->StackQueueSLL.c
+
+28/01/2022: Implement SLL operation
+			-->sll_operations.c		
+
+04/02/2022: Implement quick sort
+			-->
+
+04/02/2022: Implement merge sort
+			-->				

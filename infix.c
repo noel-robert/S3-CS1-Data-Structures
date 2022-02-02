@@ -75,7 +75,7 @@ void infix_to_postfix(char* ifx, char* pfx)
 		}		
 	}
 	
-	while (top != -1 && stk[top] != '(')	// pop from stack till empty 
+	while(top != -1 && stk[top] != '(')	// pop from stack till empty 
   	pfx[p++] = pop();
 
 	pfx[p] = 0;	

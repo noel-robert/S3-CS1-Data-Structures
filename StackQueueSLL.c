@@ -68,15 +68,15 @@ void stackMenu()
 		switch(code)
 		{
 			case 1:	printf("Input item to push to stack: "); scanf("%d", &item);
-							push(item); 
-							break;
-			case 2:	pop(); 
-							break;
-			case 3: stackDisplay(); 
-							break;
-			case 4: printf("Exiting program on user input\n"); 
-							break;
-			default:printf("Wrong code inputted\n");
+							push(item); break;
+							
+			case 2:	pop(); break;
+							
+			case 3: stackDisplay(); break;
+							
+			case 4: printf("Exiting program on user input\n"); break;
+							
+			default:printf("Wrong code inputted\n"); break;
 		}
 	}while(code != 4);
 }
