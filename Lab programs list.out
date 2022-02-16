@@ -20,7 +20,7 @@ exp0: array operations
 			-->sll_operations.c		
 
 04/02/2022: Implement quick sort
-			-->
+			-->quickSort.c
 
 04/02/2022: Implement merge sort
-			-->				
+			-->mergeSort.c				

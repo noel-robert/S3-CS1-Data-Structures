@@ -1,5 +1,5 @@
 // Noel John Robert
-// implement Singly Linked List operations
+// Singly Linked List operations
 // 
 
 #include <stdio.h>
@@ -10,25 +10,6 @@ struct Node
 	int info;
 	struct Node *link;
 } *head = NULL;
-
-void insertion(int item)
-{
-	struct Node *temp = (struct Node*) malloc(sizeof(struct Node));	// allocate memory for new node
-	temp->info = item;
-	temp->link = NULL;
-
-	if(head == NULL)
-	{
-		head = temp;
-		return;
-	}
-	
-	struct Node *ptr = head;
-	while(ptr->link != NULL)		// loop to traverse to last node
-		ptr = ptr->link;
-
-	ptr->link = temp;
-}
 
 void insertionAt(int item, int pos)
 {
@@ -45,7 +26,7 @@ void insertionAt(int item, int pos)
 
 	struct Node *ptr = head;
 	int i = 1;
-	/* why pos-1, */
+	
 	while(i < pos-1)				// traversing to the position
 	{
 		ptr = ptr->link;
@@ -100,7 +81,10 @@ void display()
 	if(head == NULL)
 	{
 		printf("Empty List\n");
+		return;
 	}
+
+	printf("Linked list is: ");
 	while(ptr != NULL)
 	{
 		printf("%d ", ptr->info);
@@ -122,7 +106,7 @@ int main()
 		for(int i=0; i<n; i++)
 		{
 			scanf("%d", &d);
-			insertion(d);
+			insertionAt(d, i+1);
 		}
 		printf("\n");
 	}

@@ -14,9 +14,9 @@ struct Node
 // stack operations
 void push(int item)
 {
+	// insert new node to first position
 	temp = (struct Node*) malloc(sizeof(struct Node));
-
-	temp->info = item;
+	temp->info = item;			
 	temp->link = head;
 	head = temp;
 	return;
@@ -24,6 +24,7 @@ void push(int item)
 
 void pop()
 {
+	// remove node at first position
 	if(head == NULL)
 	{
 		printf("Underflow \n");
@@ -86,7 +87,6 @@ void stackMenu()
 void enqueue(int item)
 {
 	temp = (struct Node*) malloc(sizeof(struct Node));
-
 	temp->info = item;
 	temp->link = NULL;
 
@@ -180,7 +180,7 @@ int main()
 		{
 			case 1:	stackMenu(); printf("\n"); head = NULL;
 							break;
-			case 2:	queueMenu(); printf("\n"); front = NULL;
+			case 2:	queueMenu(); printf("\n"); front = NULL; rear = NULL;
 							break;
 			case 3: printf("Exiting program on user input\n"); 
 							break;
