@@ -23,4 +23,7 @@ exp0: array operations
 			-->quickSort.c
 
 04/02/2022: Implement merge sort
-			-->mergeSort.c				
+			-->mergeSort.c
+
+18/02/2022: Implement hashing
+			-->hashing.c							
