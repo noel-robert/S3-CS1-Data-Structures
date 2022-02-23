@@ -5,10 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#define def_val -2147483647			// default value 
 
-int table_size;			// size of table
+int *hash_table;				// table
+int table_size;					// size of table
 int D;
-int *hash_table;
 
 
 bool isPrime(int n)						// to check if number is prime
@@ -37,13 +38,13 @@ int hash_function(int k)			// division method
 	return(k%D);
 }
 
-int collision_resolution(int num, int key)		// uses linear probing
+int collision_resolution(int key)		// uses linear probing
 {
 	int index = key;
 	
 	do
 	{
-		if(hash_table[index] == 0)		// location is empty
+		if(hash_table[index] == def_val)		// location is empty
 			return index;
 
 		if(index == table_size-1)			// not empty, so move to next
@@ -56,9 +57,9 @@ int collision_resolution(int num, int key)		// uses linear probing
 
 void insert(int num)
 {
-	int key = hash_function(num);			// finding key
+	int key = hash_function(num);				// finding key
 
-	key = collision_resolution(num, key);		// collision resolution using linear probing
+	key = collision_resolution(key);		// collision resolution using linear probing
 	hash_table[key] = num;
 	
 	return;
@@ -71,9 +72,15 @@ void search(int num)
 	int index = key;
 	do
 	{
-		if(hash_table[index] == num)		
+		if(hash_table[index] == num)		// searched number is at that position
 		{
 			printf("Value is present in table\n");
+			return;
+		}
+
+		if(hash_table[index] == def_val)		// searched number is not at position, and position is empty
+		{
+			printf("Value is not present in table\n");
 			return;
 		}
 
@@ -94,17 +101,31 @@ void search(int num)
 bool hasSpace()		// checks if there are empty spaces to input more values
 {
 	for(int i=0; i<table_size; i++)
-		if(hash_table[i] == 0)
+		if(hash_table[i] == def_val)
 			return true;
 
 	return false;		
 }
 
-void showTable()			// for checking, not needed in final code
+void assign_values()			// assign default value to all positions in table 
 {
 	for(int i=0; i<table_size; i++)
 	{
-		printf("%d ", hash_table[i]);
+		hash_table[i] = def_val;
+	}
+}
+
+void showTable()					// display values in table
+{
+	for(int i=0; i<table_size; i++)
+	{
+		if(hash_table[i] == def_val)
+		{
+			printf(" _ ");
+			continue;
+		}
+		else
+			printf("%d ", hash_table[i]);
 	}
 	printf("\n");
 }
@@ -117,11 +138,12 @@ int main()
 	D = closestPrime(table_size);
 	
 	hash_table = (int*) malloc(table_size * sizeof(int));
+	assign_values();									// assign default values to array
 	
 	int code;
 	do
 	{
-		printf("1. Insert\n");
+		printf("\n1. Insert\n");
 		printf("2. Search\n");
 		printf("3. Exit\n");
 		printf("Input choice ");
@@ -130,9 +152,11 @@ int main()
 		int num;
 		switch(code)
 		{
+			case 0: showTable(); break;
+
 			case 1: if(hasSpace())
 							{
-								printf("Input number to insert ");		// do not take 0 as input
+								printf("Input number to insert ");
 								scanf("%d", &num); 
 								insert(num);
 							} 
@@ -153,6 +177,5 @@ int main()
 		}
 	}while(code != 3);
 
-	// showTable();					// for checking, not in final code
 	return 0;
 }
