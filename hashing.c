@@ -44,10 +44,10 @@ int collision_resolution(int key)		// uses linear probing
 	
 	do
 	{
-		if(hash_table[index] == def_val)		// location is empty
+		if(hash_table[index] == def_val)		// current location is empty
 			return index;
 
-		if(index == table_size-1)			// not empty, so move to next
+		if(index == table_size-1)						// updating index as element already present
 			index = 0;
 		else
 			index++;

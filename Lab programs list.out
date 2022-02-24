@@ -26,4 +26,7 @@ exp0: array operations
 			-->mergeSort.c
 
 18/02/2022: Implement hashing
-			-->hashing.c							
+			-->hashing.c		
+
+----------: Implement dequeue
+			-->dequeue.c

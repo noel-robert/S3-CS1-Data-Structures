@@ -42,7 +42,7 @@ void stackDisplay()				// display stack
 {
 	if(top == -1)
 	{
-		printf("Empty stack");
+		printf("Empty stack\n");
 		return;
 	}
 	else
@@ -62,7 +62,7 @@ void stackMenu()
 	int code;
 	do
 	{
-		printf("1. Push to stack\n");
+		printf("\n1. Push to stack\n");
 		printf("2. Pop from stack\n");
 		printf("3. Display stack\n");
 		printf("4. Exit from stack menu\n");
@@ -120,7 +120,7 @@ void queueDisplay()		// display queue
 {
 	if(front == -1 || rear == -1)
 	{
-		printf("Queue is empty");
+		printf("Queue is empty\n");
 		return;
 	}
 	else
@@ -140,7 +140,7 @@ void queueMenu()
 	int code;
 	do
 	{
-		printf("1. Enqueue to queue\n");
+		printf("\n1. Enqueue to queue\n");
 		printf("2. Dequeue from queue\n");
 		printf("3. Display queue\n");
 		printf("4. Exit from queue menu\n");
