@@ -28,5 +28,7 @@ exp0: array operations
 18/02/2022: Implement hashing
 			-->hashing.c		
 
-----------: Implement dequeue
+Qn 4: Implement dequeue
 			-->dequeue.c
+
+25/02/2022:	Implement Binary Search Tree operations
