@@ -32,3 +32,4 @@ Qn 4: Implement dequeue
 			-->dequeue.c
 
 25/02/2022:	Implement Binary Search Tree operations
+			-->trees.c
