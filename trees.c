@@ -1,7 +1,7 @@
 // Noel John Robert
 // B20CS1147
 // program to implement Binary Search Tree 
-							// deletion not done
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,7 +50,7 @@ void postorder_traversal(struct node *ptr)
 		return;
 }
 
-bool search(int item)
+struct node* search(int item)		// returns position where node is found
 {
 	struct node* ptr = root;
 	
@@ -62,10 +62,7 @@ bool search(int item)
 			ptr = ptr->LC;
 	}
 	
-	if(ptr == NULL)
-		return false;
-	else if(ptr->info == item)
-		return true;		
+	return ptr;	
 }
 
 void insert(int item)
@@ -76,21 +73,21 @@ void insert(int item)
 	temp->info = item;
 	temp->RC = NULL;
 	
-	if(root == NULL)	// empty tree
+	if(root == NULL)	// tree is empty, so new node is root of tree
 	{
 		root = temp;
 		return;
 	}
 
-	if(search(item))   // item already present
+	if(search(item) != NULL)   // search returns NULL if element not present   
 	{
-		printf("Item already present\n");
+		printf("Cannot insert same item again\n");
 		return;
 	}  
 	
 	struct node* ptr = root;
 	struct node* parent = NULL;
-	while(ptr!=NULL)
+	while(ptr != NULL)
 	{
 		parent = ptr;
 		if(ptr->info > item)
@@ -105,25 +102,74 @@ void insert(int item)
 		parent->RC = temp;
 }
 
-//struct node* searchParent(int item)
-//{
-//	struct node* ptr = root;
-//	struct node* parent = NULL;
-//	
-//	while(ptr!=NULL && ptr->info!=item)
-//	{
-//		parent = ptr;
-//		if(ptr->info < item)
-//			ptr = ptr->RC;
-//		else
-//			ptr = ptr->LC;
-//	}	
-//	return parent;
-//}
-
-void deletion(int item)
+struct node* searchParent(int item)
 {
+	struct node* ptr = root;
+	struct node* parent = NULL;
 	
+	while(ptr!=NULL && ptr->info!=item)
+	{
+		parent = ptr;
+		if(ptr->info < item)
+			ptr = ptr->RC;
+		else
+			ptr = ptr->LC;
+	}	
+	return parent;
+}
+
+struct node* inorder_successor(struct node* ptr)
+{
+	ptr = ptr->RC;				// go to right sub-tree of ptr
+	
+	while(ptr->LC != NULL)	// finding smallest element in right-subtree of ptr
+		ptr = ptr->LC;
+
+	return ptr;
+}
+
+void deletion(int item)															
+{
+	struct node* ptr = NULL;
+	struct node *z, *y, *x, *parent;
+	
+	z = search(item);
+	
+	if(z == NULL)			// item not present, so cannot delete
+	{
+		printf("Element not present\n");
+		return;
+	}
+		
+	if(z->LC == NULL || z->RC == NULL)
+		y = z;
+	else
+		y = inorder_successor(z);
+		
+	if(y->LC != NULL)
+		x = y->LC;
+	else
+		x = y->RC;
+
+	parent = searchParent(y->info);
+
+	if(parent == NULL)
+	{
+		root = x;
+		free(y);
+		return;
+	}
+
+	if(parent->LC == y)
+		parent->LC = x;
+	else
+		parent->RC = x;
+
+	if(y != z)
+		z->info = y->info;
+
+	free(y);
+	return;			
 }
 
 int height(struct node *ptr)
@@ -136,9 +182,9 @@ int height(struct node *ptr)
 		int r = height(ptr->RC);
 
 		if(l > r)
-			return l;		// or l+1
+			return l+1;		// or l ????
 		else
-			return r;		// or r+1
+			return r+1;		// or r ????
 	}	
 }
 
@@ -151,7 +197,7 @@ int main()
 		printf("2. Search for element\n");
 		printf("3. Delete node\n");
 		printf("4. Height of tree\n");
-		printf("5. Inorder traversal\n");
+		printf("5. Traversal\n");
 		printf("6. Exit program\n");
 		scanf("%d", &code);		// input choice here
 
@@ -162,21 +208,24 @@ int main()
 				 			insert(num); break;
 			
 			case 2: printf("Input number to search: "); scanf("%d", &num);
-				 			if(search(num))
+				 			struct node* ptr = search(num);
+							if(ptr!=NULL && ptr->info==num)
+							{
 								printf("Item is present\n");
-							else
-								printf("Item not present\n");
+								break;
+							}	
+	       			printf("Item not present\n");
 							break;
 				 
 			case 3: printf("Input number to delete: "); scanf("%d", &num);
 				 			deletion(num); break;
 				 
-			case 4: height(root); break;
+			case 4: printf("Height of tree %d\n", height(root)); break;
 
-			case 5: inorder_traversal(root);
-							preorder_traversal(root);
-							postorder_traversal(root);
-							printf("\n"); break;
+			case 5: printf("Inorder sequence: "); inorder_traversal(root); printf("\n");
+							printf("Preorder sequence: "); preorder_traversal(root); printf("\n");
+							printf("Postorder sequence: "); postorder_traversal(root); printf("\n");
+							break;
 			
 			case 6: printf("Exiting program on user input\n"); break;
 			

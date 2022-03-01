@@ -105,7 +105,7 @@ void dequeue()
 {
 	if(front == NULL)
 	{
-		printf("Underflow");
+		printf("Underflow\n");
 		return;
 	}
 	printf("Item popped: %d\n", front->info);
