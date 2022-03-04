@@ -14,6 +14,16 @@ struct node
 	struct node* RC;	// right child
 } *root = NULL;
 
+void inorder_traversal(struct node *ptr);
+void preorder_traversal(struct node *ptr);
+void postorder_traversal(struct node *ptr);
+struct node* search(int item);
+struct node* searchParent(int item);
+struct node* inorder_successor(struct node* ptr);
+void insert(int item);
+void deletion(int item);
+int height(struct node *ptr);
+
 void inorder_traversal(struct node *ptr)
 {
 	if(ptr != NULL)
@@ -65,7 +75,7 @@ struct node* search(int item)		// returns position where node is found
 	return ptr;	
 }
 
-void insert(int item)
+void insert(int item)			// inserts node at corrrect position
 {
 	// create and initialize new node	
 	struct node* temp = (struct node*) malloc (sizeof(struct node)); 
@@ -86,15 +96,7 @@ void insert(int item)
 	}  
 	
 	struct node* ptr = root;
-	struct node* parent = NULL;
-	while(ptr != NULL)
-	{
-		parent = ptr;
-		if(ptr->info > item)
-			ptr = ptr->LC;
-		else
-			ptr = ptr->RC;
-	}
+	struct node* parent = searchParent(item);
 	
 	if(parent->info > item)
 		parent->LC = temp;
@@ -128,44 +130,47 @@ struct node* inorder_successor(struct node* ptr)
 	return ptr;
 }
 
-void deletion(int item)															
+void deletion(int item)	
 {
 	struct node* ptr = NULL;
 	struct node *z, *y, *x, *parent;
-	
-	z = search(item);
+	// x is child node of actual node to be deleted		
+	// y is actual node to be deleted
+	// z is node from which data should be removed
+	z = search(item);		
 	
 	if(z == NULL)			// item not present, so cannot delete
 	{
-		printf("Element not present\n");
+		printf("Element not present to delete\n");
 		return;
 	}
 		
 	if(z->LC == NULL || z->RC == NULL)
-		y = z;
+		y = z;			// case 1,2
 	else
-		y = inorder_successor(z);
+		y = inorder_successor(z);	// case 3
 		
-	if(y->LC != NULL)
+		
+	if(y->LC != NULL)		// finding child node of y
 		x = y->LC;
 	else
 		x = y->RC;
 
-	parent = searchParent(y->info);
+	parent = searchParent(y->info);	// parent of y
 
-	if(parent == NULL)
+	if(parent == NULL)		// if only one node, parent is NULL
 	{
 		root = x;
 		free(y);
 		return;
 	}
 
-	if(parent->LC == y)
+	if(parent->LC == y)		// connect parent and child of y
 		parent->LC = x;
 	else
 		parent->RC = x;
 
-	if(y != z)
+	if(y != z)			// occurs in case 3
 		z->info = y->info;
 
 	free(y);
@@ -182,20 +187,21 @@ int height(struct node *ptr)
 		int r = height(ptr->RC);
 
 		if(l > r)
-			return l+1;		// or l ????
+			return l+1;
 		else
-			return r+1;		// or r ????
+			return r+1;	
 	}	
 }
 
 int main()
 {
 	int code;
+	
 	do
 	{
-		printf("\n1. Insert node\n");
-		printf("2. Search for element\n");
-		printf("3. Delete node\n");
+		printf("\n1. Insert element\n");
+		printf("2. Search element\n");
+		printf("3. Delete element\n");
 		printf("4. Height of tree\n");
 		printf("5. Traversal\n");
 		printf("6. Exit program\n");
@@ -204,21 +210,21 @@ int main()
 		int num;
 		switch(code)
 		{
-			case 1: printf("Input number to insert: "); scanf("%d", &num);
-				 			insert(num); break;
+			case 1: printf("Input element to insert: "); scanf("%d", &num);
+							insert(num); break;
 			
-			case 2: printf("Input number to search: "); scanf("%d", &num);
-				 			struct node* ptr = search(num);
+			case 2: printf("Input element to search: "); scanf("%d", &num);
+							struct node* ptr = search(num);
 							if(ptr!=NULL && ptr->info==num)
 							{
-								printf("Item is present\n");
+								printf("Element is present\n");
 								break;
 							}	
-	       			printf("Item not present\n");
+				      printf("Element not present\n");
 							break;
 				 
-			case 3: printf("Input number to delete: "); scanf("%d", &num);
-				 			deletion(num); break;
+			case 3: printf("Input element to delete: "); scanf("%d", &num);
+							deletion(num); break;
 				 
 			case 4: printf("Height of tree %d\n", height(root)); break;
 
@@ -235,8 +241,3 @@ int main()
 
 	return 0;
 }
-
-/*
-OUTPUT
-
-*/
